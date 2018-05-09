@@ -4,7 +4,9 @@ import math
 import importlib,sys
 importlib.reload(sys)
 from util import getFilelist
-allpath ='C:/Users/zhou/PycharmProject/search_engine'
+allpath = str(os.getcwd()).replace('\\','/')
+
+#allpath ='C:/Users/zhou/PycharmProject/search_engine'
 #获得停用词表
 def stopwordslist(filepath):
     stopwords = [line.strip() for line in open(filepath, 'r', encoding='utf-8').readlines()]

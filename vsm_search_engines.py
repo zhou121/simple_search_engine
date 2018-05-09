@@ -1,10 +1,11 @@
 import importlib,sys,math
 importlib.reload(sys)
-import jieba
+import jieba,os
 
 from util import getFilelist,delete_symbol
 from TF_IDF import cal_idf
-allpath ='C:/Users/zhou/PycharmProject/search_engine'
+allpath = str(os.getcwd()).replace('\\','/')
+#allpath ='C:/Users/zhou/PycharmProject/search_engine'
 
 #传入分完词计算完TFIDF的文档,默认选出前20的关键词
 def find_keywords(seg_text,words_num = 20):

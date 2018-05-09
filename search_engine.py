@@ -5,7 +5,9 @@ from vsm_search_engines import main as search_eng
 from TF_IDF import main as tfidfmain
 
 app = Flask(__name__)
-path="C:/Users/zhou/PycharmProject/search_engine/tfidffile/"
+
+path = str(os.getcwd()).replace('\\','/')+'/tfidffile/'
+#path="C:/Users/zhou/PycharmProject/search_engine/tfidffile/"
 
 def process_text(name):
     f = open(path + name, 'r')

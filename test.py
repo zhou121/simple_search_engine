@@ -1,4 +1,10 @@
 import chardet
+import os
+allpath = str(os.getcwd()).replace('\\','/')
+print(allpath)
+exit()
+print(str(os.getcwd()).replace('\\','/'))
+exit()
 path="C:/Users/zhou/PycharmProject/search_engine/tfidffile/"
 f=open(path+'[财经]2月BHI全国建材家居景气指数再现下降.txt','r')
 ss = ''
