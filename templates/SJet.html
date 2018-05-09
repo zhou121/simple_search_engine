@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block head %}
+    <title>{% block title %}搜索引擎{% endblock title %}</title>
+
+{%- block metas %}
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{%- endblock metas %}
+
+    {%- block styles %}
+<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+{%- endblock styles %}
+
+{% endblock head %}
+
+{% block body %}
+{% block content %}
+<form role="form" name="form1" action="{{ url_for('search') }}" method="post">
+        <div class="form-group">
+            <label for="IDCard">请输入查询内容</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="query" name="query" placeholder="查询内容" >
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" >查询</button>
+                </span>
+            </div>
+        </div>
+    {%for i in range(results|length) %}
+          <div class="form-group">
+		   <li><a>{{ results[i] }}</a></li>
+          </div>
+      {% endfor %}
+</form>
+
+
+{% endblock content %}
+    {% block scripts %}
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {%-  endblock scripts %}
+{% endblock body %}

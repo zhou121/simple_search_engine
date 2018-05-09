@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block head %}
+    <title>{% block title %}句子相似性{% endblock title %}</title>
+
+{%- block metas %}
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{%- endblock metas %}
+
+    {%- block styles %}
+<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+{%- endblock styles %}
+
+{% endblock head %}
+
+{% block body %}
+{% block content %}
+  <div >
+   <h1 style="width:100%;text-align:center">相似度计算</h1>
+<form class="form-horizontal" role="form" id="abc" name="abc" action="{{  url_for('auth_page')}}" method="post">
+	<div class="form-group">
+		<label for="firstname" class="col-sm-2 control-label">第一句</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="first" name="first"
+				   placeholder="请输入第一句话">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="lastname" class="col-sm-2 control-label">第二句</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="last" name="last"
+				   placeholder="请输入第二句话">
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-default">计算</button>
+		</div>
+	</div>
+    <div class="form-group">
+		<label for="lastname" class="col-sm-2 control-label">点积</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="dot" name="dot">
+		</div>
+	</div>
+    <div class="form-group">
+		<label for="lastname" class="col-sm-2 control-label">余弦相似度</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="cos" name="cos">
+		</div>
+	</div>
+    <div class="form-group">
+		<label for="lastname" class="col-sm-2 control-label">Jaccard相似度</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" id="jaccard" name="jaccard">
+		</div>
+	</div>
+</form>
+  </div>
+
+<div >
+    <h1 style="width:100%;text-align:center">文件上传</h1>
+<form action="{{ url_for('upload') }}" enctype='multipart/form-data' method='POST' >
+         <input type="file" name="file" align="center">
+         <input type="submit" value="上传">
+{% if success==1 %}
+<div><a>上传成功</a></div>
+{% elif success==0 %}
+<div><a>上传失败</a></div>
+{% endif %}
+</form>
+<div>
+    <form action="{{ url_for('cal_show') }}"><input type="submit" value="计算并展示该文档结果"></form>
+    <textarea name="content" id="content" style="margin: 120px;width: 50%;height: 300px;margin-top:  10px;margin-left: 30%;"></textarea>
+</div>
+</div>
+
+{% endblock content %}
+    {% block scripts %}
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            {% if content %}
+             $(function(){
+   var content = document.getElementById('content');
+   content.value = "{{ content }}";
+});
+            {% endif %}
+            {% if dot %}
+
+        $(function () {
+            $("#first").attr("value","{{ sen1 }}");
+            $("#last").attr("value","{{ sen2}}");
+            $("#dot").attr("value",{{ dot }});
+            $("#cos").attr("value",{{ cos }});
+            $("#jaccard").attr("value",{{ jaccard }});
+        });
+            {% endif %}
+        </script>
+        <script type="text/javascript">
+    window.onload = function() {
+        /**
+         * 上传函数
+         * @param fileInput DOM对象
+         * @param callback 回调函数
+         */
+        var getFileContent = function (fileInput, callback) {
+            if (fileInput.files && fileInput.files.length > 0 && fileInput.files[0].size > 0) {
+                //下面这一句相当于JQuery的：var file =$("#upload").prop('files')[0];
+                var file = fileInput.files[0];
+                if (window.FileReader) {
+                    var reader = new FileReader();
+                    reader.onloadend = function (evt) {
+                        if (evt.target.readyState == FileReader.DONE) {
+                            callback(evt.target.result);
+                        }
+                    };
+                    // 包含中文内容用gbk编码
+                    console.log(file);
+                    reader.readAsText(file, 'utf8');
+                }
+            }
+        };
+
+        /**
+         * upload内容变化时载入内容
+         */
+        document.getElementById('upload').onchange = function () {
+            var content = document.getElementById('content');
+
+            getFileContent(this, function (str) {
+                content.value = str;
+            });
+        };
+    };
+</script>
+    {%-  endblock scripts %}
+{% endblock body %}
+
